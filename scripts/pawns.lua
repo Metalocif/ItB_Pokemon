@@ -1,6 +1,9 @@
 -- https://sprites.pmdcollab.org/
 -- Repository of Pokemon sprites, roughly ItB-style.
 -- It also has portraits but they are not the right size (and I couldn't figure out how to change portraits on evo anyway).
+-- For portraits, this website has the ones from Super Mystery Dungeon, which are 55x55, easier to resize.
+-- https://projectpokemon.org/home/pokedex/pokemon/psmd
+-- For Gen 1-3, use the portraits from the Rescue Team remake, which are bigger.
 
 -- Feel free to steal this code to make more Pokemon stuff or just upgradeable mechs.
 -- I check pilot level, but you can check anything - either game variables like the current island, or stuff you keep track of yourself.
@@ -75,6 +78,44 @@ local files = {
     "Mew_broken.png",
     "Mew_ns.png",
     "Mew_h.png",
+	
+	"Articuno.png",
+	"Articuno_a.png",
+	"Articuno_h.png",
+	"Articuno_ns.png",
+	
+	"Zapdos.png",
+	"Zapdos_a.png",
+	"Zapdos_h.png",
+	"Zapdos_ns.png",
+	
+	"Moltres.png",
+	"Moltres_a.png",
+	"Moltres_h.png",
+	"Moltres_ns.png",
+	
+	"Mewtwo.png",
+	"Mewtwo_a.png",
+	"Mewtwo_h.png",
+	"Mewtwo_ns.png",
+	
+	"Darkrai.png",
+	"Darkrai_a.png",
+	"Darkrai_h.png",
+	"Darkrai_ns.png",
+	
+	"Deoxys.png",
+	"Deoxys_a.png",
+	"Deoxys_h.png",
+	"Deoxys_ns.png",
+	"DeoxysA.png",
+	"DeoxysA_a.png",
+	"DeoxysS.png",
+	"DeoxysS_a.png",
+	"DeoxysD.png",
+	"DeoxysD_a.png",
+	
+	"MasterBall.png",
 }
 for _, file in ipairs(files) do
     modApi:appendAsset("img/units/player/".. file, mechPath.. file)
@@ -125,7 +166,6 @@ a.Poke_Dragonite_broken = a.MechUnit:new{Image="units/player/Dragonite_broken.pn
 a.Poke_Dragonite_ns = a.MechIcon:new{Image="units/player/Dragonite_ns.png"}
 a.Poke_Dragonite_sleep = a.MechUnit:new{Image="units/player/Dragonite_sleep.png", PosX = -15, PosY = -12, NumFrames = 2, Time = 1 }
 
-
 a.Poke_Mew =a.MechUnit:new{Image="units/player/Mew.png", PosX = -20, PosY = -4}
 a.Poke_Mewa = a.MechUnit:new{Image="units/player/Mew_a.png",  PosX = -20, PosY = -4, NumFrames = 4 }
 a.Poke_Meww = a.MechUnit:new{Image="units/player/Mew_w.png", PosX = -17, PosY = 2}
@@ -133,9 +173,61 @@ a.Poke_Mew_broken = a.MechUnit:new{Image="units/player/Mew_broken.png", PosX = -
 -- a.Poke_Meww_broken = a.MechUnit:new{Image="units/player/Mew_w_broken.png", PosX = -20, PosY = 2 }
 a.Poke_Mew_ns = a.MechIcon:new{Image="units/player/Mew_ns.png"}
 
+
+a.Poke_Articuno =a.MechUnit:new{Image="units/player/Articuno.png", PosX = -25, PosY = -14}
+a.Poke_Articunoa = a.MechUnit:new{Image="units/player/Articuno_a.png",  PosX = -25, PosY = -14, NumFrames = 6 }
+a.Poke_Articuno_broken = a.MechUnit:new{Image="units/player/MasterBall.png", PosX = -15, PosY = -2 }
+a.Poke_Articuno_ns = a.MechIcon:new{Image="units/player/Articuno_ns.png"}
+
+a.Poke_Zapdos =a.MechUnit:new{Image="units/player/Zapdos.png", PosX = -30, PosY = -14}
+a.Poke_Zapdosa = a.MechUnit:new{Image="units/player/Zapdos_a.png",  PosX = -40, PosY = -14, NumFrames = 6 }
+a.Poke_Zapdos_broken = a.MechUnit:new{Image="units/player/MasterBall.png", PosX = -15, PosY = -2 }
+a.Poke_Zapdos_ns = a.MechIcon:new{Image="units/player/Zapdos_ns.png"}
+
+a.Poke_Moltres =a.MechUnit:new{Image="units/player/Moltres.png", PosX = -45, PosY = -25}
+a.Poke_Moltresa = a.MechUnit:new{Image="units/player/Moltres_a.png",  PosX = -45, PosY = -25, NumFrames = 6 }
+a.Poke_Moltres_broken = a.MechUnit:new{Image="units/player/MasterBall.png", PosX = -15, PosY = -2 }
+a.Poke_Moltres_ns = a.MechIcon:new{Image="units/player/Moltres_ns.png"}
+
+
+a.Poke_Mewtwo =a.MechUnit:new{Image="units/player/Mewtwo.png", PosX = -20, PosY = -4}
+a.Poke_Mewtwoa = a.MechUnit:new{Image="units/player/Mewtwo_a.png",  PosX = -25, PosY = -14, NumFrames = 6 }
+a.Poke_Mewtwo_broken = a.MechUnit:new{Image="units/player/MasterBall.png", PosX = -15, PosY = -2 }
+a.Poke_Mewtwo_ns = a.MechIcon:new{Image="units/player/Mewtwo_ns.png"}
+
+a.Poke_Darkrai =a.MechUnit:new{Image="units/player/Darkrai.png", PosX = -20, PosY = -4}
+a.Poke_Darkraia = a.MechUnit:new{Image="units/player/Darkrai_a.png",  PosX = -20, PosY = -14, NumFrames = 8 }
+a.Poke_Darkrai_broken = a.MechUnit:new{Image="units/player/MasterBall.png", PosX = -15, PosY = -2 }
+a.Poke_Darkrai_ns = a.MechIcon:new{Image="units/player/Darkrai_ns.png"}
+
+a.Poke_Deoxys =a.MechUnit:new{Image="units/player/Deoxys.png", PosX = -20, PosY = -4}
+a.Poke_Deoxysw =a.MechUnit:new{Image="units/player/Deoxys_w.png", PosX = -20, PosY = -4}
+a.Poke_Deoxysa = a.MechUnit:new{Image="units/player/Deoxys_a.png",  PosX = -15, PosY = -4, NumFrames = 8 }
+a.Poke_Deoxys_broken = a.MechUnit:new{Image="units/player/MasterBall.png", PosX = -15, PosY = -2 }
+a.Poke_Deoxys_ns = a.MechIcon:new{Image="units/player/Deoxys_ns.png"}
+a.Poke_DeoxysA =a.MechUnit:new{Image="units/player/DeoxysA.png", PosX = -20, PosY = -4}
+a.Poke_DeoxysAw =a.MechUnit:new{Image="units/player/DeoxysA_w.png", PosX = -20, PosY = -4}
+a.Poke_DeoxysAa = a.MechUnit:new{Image="units/player/DeoxysA_a.png",  PosX = -20, PosY = -4, NumFrames = 4 }
+a.Poke_DeoxysA_broken = a.MechUnit:new{Image="units/player/MasterBall.png", PosX = -15, PosY = -2 }
+a.Poke_DeoxysS =a.MechUnit:new{Image="units/player/DeoxysS.png", PosX = -20, PosY = -4}
+a.Poke_DeoxysSw =a.MechUnit:new{Image="units/player/DeoxysS_w.png", PosX = -20, PosY = -4}
+a.Poke_DeoxysSa = a.MechUnit:new{Image="units/player/DeoxysS_a.png",  PosX = -20, PosY = -4, NumFrames = 4 }
+a.Poke_DeoxysS_broken = a.MechUnit:new{Image="units/player/MasterBall.png", PosX = -15, PosY = -2 }
+a.Poke_DeoxysD =a.MechUnit:new{Image="units/player/DeoxysD.png", PosX = -20, PosY = -4}
+a.Poke_DeoxysDw =a.MechUnit:new{Image="units/player/DeoxysD_w.png", PosX = -20, PosY = -4}
+a.Poke_DeoxysDa = a.MechUnit:new{Image="units/player/DeoxysD_a.png",  PosX = -15, PosY = -3, NumFrames = 6, Time = 0.5 }
+a.Poke_DeoxysD_broken = a.MechUnit:new{Image="units/player/MasterBall.png", PosX = -15, PosY = -2 }
+
+
 modApi:appendAsset("img/portraits/pilots/Pilot_Poke_Abra.png", path .."img/portraits/pilots/Pilot_Poke_Abra.png")
 modApi:appendAsset("img/portraits/pilots/Pilot_Poke_Dratini.png", path .."img/portraits/pilots/Pilot_Poke_Dratini.png")
 modApi:appendAsset("img/portraits/pilots/Pilot_Poke_Mew.png", path .."img/portraits/pilots/Pilot_Poke_Mew.png")
+modApi:appendAsset("img/portraits/pilots/Pilot_Poke_Articuno.png", path .."img/portraits/pilots/Pilot_Poke_Articuno.png")
+modApi:appendAsset("img/portraits/pilots/Pilot_Poke_Zapdos.png", path .."img/portraits/pilots/Pilot_Poke_Zapdos.png")
+modApi:appendAsset("img/portraits/pilots/Pilot_Poke_Moltres.png", path .."img/portraits/pilots/Pilot_Poke_Moltres.png")
+modApi:appendAsset("img/portraits/pilots/Pilot_Poke_Mewtwo.png", path .."img/portraits/pilots/Pilot_Poke_Mewtwo.png")
+modApi:appendAsset("img/portraits/pilots/Pilot_Poke_Deoxys.png", path .."img/portraits/pilots/Pilot_Poke_Deoxys.png")
+modApi:appendAsset("img/portraits/pilots/Pilot_Poke_Darkrai.png", path .."img/portraits/pilots/Pilot_Poke_Darkrai.png")
 
 CreatePilot{
 	Id = "Pilot_Poke_Abra",
@@ -164,6 +256,60 @@ CreatePilot{
 	Rarity = 0,
 	Blacklist = {"Invulnerable", "Popular"},
 }
+CreatePilot{
+	Id = "Pilot_Poke_Articuno",
+	Personality = "Vek",
+	Name = "Freezer",
+	Sex = SEX_VEK,
+	Skill = "Survive_Death",
+	Rarity = 0,
+	Blacklist = {"Invulnerable", "Popular"},
+}
+CreatePilot{
+	Id = "Pilot_Poke_Zapdos",
+	Personality = "Vek",
+	Name = "Thunder",
+	Sex = SEX_VEK,
+	Skill = "Survive_Death",
+	Rarity = 0,
+	Blacklist = {"Invulnerable", "Popular"},
+}
+CreatePilot{
+	Id = "Pilot_Poke_Moltres",
+	Personality = "Vek",
+	Name = "Fire",
+	Sex = SEX_VEK,
+	Skill = "Survive_Death",
+	Rarity = 0,
+	Blacklist = {"Invulnerable", "Popular"},
+}
+CreatePilot{
+	Id = "Pilot_Poke_Mewtwo",
+	Personality = "Vek",
+	Name = "Mewtwo",
+	Sex = SEX_VEK,
+	Skill = "Survive_Death",
+	Rarity = 0,
+	Blacklist = {"Invulnerable", "Popular"},
+}
+CreatePilot{
+	Id = "Pilot_Poke_Deoxys",
+	Personality = "Vek",
+	Name = "Deoxys",
+	Sex = SEX_VEK,
+	Skill = "Survive_Death",
+	Rarity = 0,
+	Blacklist = {"Invulnerable", "Popular"},
+}
+CreatePilot{
+	Id = "Pilot_Poke_Darkrai",
+	Personality = "Vek",
+	Name = "Darkrai",
+	Sex = SEX_VEK,
+	Skill = "Survive_Death",
+	Rarity = 0,
+	Blacklist = {"Invulnerable", "Popular"},
+}
 
 Poke_Abra= Pawn:new{
 	Name = "Sabrina",
@@ -183,7 +329,7 @@ Poke_Abra= Pawn:new{
 	EvoForget = { "Poke_Pound", "Poke_Confusion" },
 	EvoLearn = { { "Poke_Confusion", "Poke_Kinesis" }, { "Poke_Psychic" } },
 	EvoNames = { "Abra", "Kadabra", "Alakazam" },
-	HealthAtLevel = { 2, 2 },
+	HealthAtLevel = { 1, 1 },	--this is an amount added to max health
 	BecomeFlyingAtLevel = 2,
 }
 Poke_Dratini = Pawn:new{
@@ -204,7 +350,7 @@ Poke_Dratini = Pawn:new{
 	EvoLearn = { { "Poke_Twister" }, { "Poke_Fly" } },
 	EvoNames = { "Dratini", "Dragonair", "Dragonite" },
 	KeepAdding = { "", "Poke_HyperBeam" },
-	HealthAtLevel = { 2, 4 },
+	HealthAtLevel = { 1, 3 },
 	BecomeFlyingAtLevel = 2,
 }
 Poke_Mew = Pawn:new{
@@ -221,3 +367,138 @@ Poke_Mew = Pawn:new{
 	DefaultTeam = TEAM_PLAYER,
 	ImpactMaterial = IMPACT_FLESH,
 }
+Poke_Articuno = Pawn:new{
+	Name = "Freezer",
+	Class = "TechnoVek",
+	Health = 2,
+	MoveSpeed = 4,
+	Massive = true,
+	Corpse = true,
+	Flying = true,
+	Image = "Poke_Articuno",
+	SkillList = {"Poke_IcyWind"},
+	SoundLocation = "/enemy/moth_1/",
+	DefaultTeam = TEAM_PLAYER,
+	ImpactMaterial = IMPACT_FLESH,
+	-- HasEvolutions = { false, false },
+	KeepAdding = { "", "Poke_Blizzard" },
+}
+Poke_Zapdos = Pawn:new{
+	Name = "Thunder",
+	Class = "TechnoVek",
+	Health = 2,
+	MoveSpeed = 4,
+	Massive = true,
+	Corpse = true,
+	Flying = true,
+	Image = "Poke_Zapdos",
+	SkillList = {"Poke_Shockwave"},
+	SoundLocation = "/enemy/moth_1/",
+	DefaultTeam = TEAM_PLAYER,
+	ImpactMaterial = IMPACT_FLESH,
+	-- HasEvolutions = { false, false },
+	KeepAdding = { "", "Poke_Thunder" },
+}
+Poke_Moltres = Pawn:new{
+	Name = "Fire",
+	Class = "TechnoVek",
+	Health = 2,
+	MoveSpeed = 4,
+	Massive = true,
+	Corpse = true,
+	Flying = true,
+	IgnoreFire = true,
+	Image = "Poke_Moltres",
+	SkillList = {"Poke_HeatWave"},
+	SoundLocation = "/enemy/moth_1/",
+	DefaultTeam = TEAM_PLAYER,
+	ImpactMaterial = IMPACT_FLESH,
+	-- HasEvolutions = { false, false },
+	KeepAdding = { "", "Poke_FireBlast" },
+}
+Poke_Mewtwo = Pawn:new{
+	Name = "Mewtwo",
+	Class = "TechnoVek",
+	Health = 2,
+	MoveSpeed = 3,
+	Massive = true,
+	Flying = true,
+	Corpse = true,
+	Image = "Poke_Mewtwo",
+	SkillList = {"Poke_Confusion"},
+	SoundLocation = "/enemy/blobber_1/",
+	DefaultTeam = TEAM_PLAYER,
+	ImpactMaterial = IMPACT_FLESH,
+	HasEvolutions = { true, true },
+	EvoForget = { "Poke_Confusion", "Poke_Psychic" },
+	EvoLearn = { { "Poke_Psychic", "Poke_ShadowBall" }, { "Poke_Psystrike" } },
+}
+Poke_Darkrai = Pawn:new{
+	Name = "Darkrai",
+	Class = "TechnoVek",
+	Health = 2,
+	MoveSpeed = 4,
+	Massive = true,
+	Flying = true,
+	Corpse = true,
+	GhostMovement = true,
+	Image = "Poke_Darkrai",
+	SkillList = {"Poke_DarkPulse", "Poke_Hypnosis"},
+	SoundLocation = "/enemy/blobber_1/",
+	DefaultTeam = TEAM_PLAYER,
+	ImpactMaterial = IMPACT_FLESH,
+	HasEvolutions = { false, true },
+	EvoForget = { "", "Poke_Hypnosis" },
+	EvoLearn = { { "" }, { "Poke_DarkVoid" } },
+}
+Poke_Deoxys = Pawn:new{
+	Name = "Deoxys",
+	Class = "TechnoVek",
+	Health = 2,
+	MoveSpeed = 4,
+	Massive = true,
+	Corpse = true,
+	Image = "Poke_Deoxys",
+	SkillList = {"Poke_FormChange"},
+	SoundLocation = "/enemy/blobber_1/",
+	DefaultTeam = TEAM_PLAYER,
+	ImpactMaterial = IMPACT_FLESH,
+	HasEvolutions = { true, true },
+	EvoForget = { "", "Poke_CosmicPower" },
+	EvoLearn = { { "Poke_CosmicPower" }, { "Poke_PsychoBoost" } },
+}
+
+
+
+
+
+
+local oldMove = Move.GetTargetArea
+function Move:GetTargetArea(p, ...)
+	local mover = Board:GetPawn(p)
+	if mover and _G[mover:GetType()].GhostMovement then
+		local pathType
+		local area = extract_table(general_DiamondTarget(p, mover:GetMoveSpeed()))
+		local ret = PointList()
+		for _, v in ipairs(area) do
+			local terrain = Board:GetTerrain(v)
+			if (terrain ~= TERRAIN_HOLE or mover:IsFlying()) and not Board:GetPawn(v) then
+				ret:push_back(v)
+			end
+		end
+		return ret
+	end
+	return oldMove(self, p, ...)
+end
+
+local oldMove = Move.GetSkillEffect
+function Move:GetSkillEffect(p1, p2, ...)
+	local ret = SkillEffect()
+	local mover = Board:GetPawn(p1)
+	if mover and _G[mover:GetType()].GhostMovement then
+		ret:AddScript(string.format("Board:GetPawn(%s):SetSpace(%s)", p1:GetString(), p2:GetString()))
+		return ret
+	end
+
+	return oldMove(self, p1, p2, ...)
+end
