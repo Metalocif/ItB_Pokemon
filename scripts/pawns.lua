@@ -106,14 +106,45 @@ local files = {
 	
 	"Deoxys.png",
 	"Deoxys_a.png",
+	"Deoxys_w.png",
 	"Deoxys_h.png",
 	"Deoxys_ns.png",
 	"DeoxysA.png",
 	"DeoxysA_a.png",
+	"DeoxysA_w.png",
 	"DeoxysS.png",
 	"DeoxysS_a.png",
+	"DeoxysS_w.png",
 	"DeoxysD.png",
 	"DeoxysD_a.png",
+	"DeoxysD_w.png",
+	
+	"Celebi.png",
+	"Celebi_a.png",
+	"Celebi_h.png",
+	"Celebi_ns.png",
+	
+	"Shaymin.png",
+	"Shaymin_a.png",
+	"Shaymin_w.png",
+	"Shaymin_h.png",
+	"Shaymin_ns.png",
+	"ShayminAir.png",
+	"ShayminAir_a.png",
+	
+	"Xerneas.png",
+	"Xerneas_a.png",
+	"Xerneas_sleep.png",
+	"Xerneas_tree.png",
+	"Xerneas_w.png",
+	"Xerneas_h.png",
+	"Xerneas_ns.png",
+	
+	"ArmoredMewtwo.png",
+	"ArmoredMewtwo_w.png",
+	"ArmoredMewtwo_a.png",
+	"ArmoredMewtwo_h.png",
+	"ArmoredMewtwo_ns.png",
 	
 	"MasterBall.png",
 }
@@ -219,6 +250,35 @@ a.Poke_DeoxysDa = a.MechUnit:new{Image="units/player/DeoxysD_a.png",  PosX = -15
 a.Poke_DeoxysD_broken = a.MechUnit:new{Image="units/player/MasterBall.png", PosX = -15, PosY = -2 }
 
 
+a.Poke_Celebi =a.MechUnit:new{Image="units/player/Celebi.png", PosX = -10, PosY = -4}
+a.Poke_Celebia = a.MechUnit:new{Image="units/player/Celebi_a.png",  PosX = -15, PosY = -14, NumFrames = 6 }
+a.Poke_Celebi_broken = a.MechUnit:new{Image="units/player/MasterBall.png", PosX = -15, PosY = -2 }
+a.Poke_Celebi_ns = a.MechIcon:new{Image="units/player/Celebi_ns.png"}
+
+a.Poke_Shaymin =a.MechUnit:new{Image="units/player/Shaymin.png", PosX = -10, PosY = 14}
+a.Poke_Shayminw =a.MechUnit:new{Image="units/player/Shaymin_w.png", PosX = -10, PosY = 14}
+a.Poke_Shaymina = a.MechUnit:new{Image="units/player/Shaymin_a.png",  PosX = -10, PosY = 14, NumFrames = 4 }
+a.Poke_Shaymin_broken = a.MechUnit:new{Image="units/player/MasterBall.png", PosX = -15, PosY = -2 }
+a.Poke_Shaymin_ns = a.MechIcon:new{Image="units/player/Shaymin_ns.png"}
+a.Poke_ShayminAir =a.MechUnit:new{Image="units/player/ShayminAir.png", PosX = -10, PosY = 6}
+a.Poke_ShayminAira = a.MechUnit:new{Image="units/player/ShayminAir_a.png",  PosX = -15, PosY = 6, NumFrames = 6, Frames = {0, 1, 2, 3} }
+
+a.Poke_Xerneas =a.MechUnit:new{Image="units/player/Xerneas.png", PosX = -30, PosY = -34}
+a.Poke_Xerneasw =a.MechUnit:new{Image="units/player/Xerneas_w.png", PosX = -30, PosY = -24}
+a.Poke_Xerneasa = a.MechUnit:new{Image="units/player/Xerneas_a.png",  PosX = -30, PosY = -34, NumFrames = 6 }
+a.Poke_Xerneas_sleep = a.MechUnit:new{Image="units/player/Xerneas_sleep.png",  PosX = -30, PosY = -44, NumFrames = 2, Time = 1.5 }
+a.Poke_Xerneas_tree_sleep = a.MechUnit:new{Image="units/player/Xerneas_tree.png",  PosX = -40, PosY = -40, NumFrames = 4, Time = 1 }
+-- we need a separate sleep anim so that when Darkrai puts Xerneas to sleep it doesn't turn into a tree; still suffixed _sleep so it counts for the sleep handling hook
+a.Poke_Xerneas_broken = a.MechUnit:new{Image="units/player/MasterBall.png", PosX = -15, PosY = -2 }
+a.Poke_Xerneas_ns = a.MechIcon:new{Image="units/player/Xerneas_ns.png"}
+
+a.Poke_ArmoredMewtwo =a.MechUnit:new{Image="units/player/ArmoredMewtwo.png", PosX = -20, PosY = 0}
+a.Poke_ArmoredMewtwow =a.MechUnit:new{Image="units/player/ArmoredMewtwo_w.png", PosX = -20, PosY = 0}
+a.Poke_ArmoredMewtwoa = a.MechUnit:new{Image="units/player/ArmoredMewtwo_a.png",  PosX = -20, PosY = 0, NumFrames = 2 }
+a.Poke_ArmoredMewtwo_broken = a.MechUnit:new{Image="units/player/MasterBall.png", PosX = -15, PosY = -2 }
+a.Poke_ArmoredMewtwo_ns = a.MechIcon:new{Image="units/player/ArmoredMewtwo_ns.png"}
+
+
 modApi:appendAsset("img/portraits/pilots/Pilot_Poke_Abra.png", path .."img/portraits/pilots/Pilot_Poke_Abra.png")
 modApi:appendAsset("img/portraits/pilots/Pilot_Poke_Dratini.png", path .."img/portraits/pilots/Pilot_Poke_Dratini.png")
 modApi:appendAsset("img/portraits/pilots/Pilot_Poke_Mew.png", path .."img/portraits/pilots/Pilot_Poke_Mew.png")
@@ -228,6 +288,10 @@ modApi:appendAsset("img/portraits/pilots/Pilot_Poke_Moltres.png", path .."img/po
 modApi:appendAsset("img/portraits/pilots/Pilot_Poke_Mewtwo.png", path .."img/portraits/pilots/Pilot_Poke_Mewtwo.png")
 modApi:appendAsset("img/portraits/pilots/Pilot_Poke_Deoxys.png", path .."img/portraits/pilots/Pilot_Poke_Deoxys.png")
 modApi:appendAsset("img/portraits/pilots/Pilot_Poke_Darkrai.png", path .."img/portraits/pilots/Pilot_Poke_Darkrai.png")
+modApi:appendAsset("img/portraits/pilots/Pilot_Poke_Celebi.png", path .."img/portraits/pilots/Pilot_Poke_Celebi.png")
+modApi:appendAsset("img/portraits/pilots/Pilot_Poke_Shaymin.png", path .."img/portraits/pilots/Pilot_Poke_Shaymin.png")
+modApi:appendAsset("img/portraits/pilots/Pilot_Poke_Xerneas.png", path .."img/portraits/pilots/Pilot_Poke_Xerneas.png")
+modApi:appendAsset("img/portraits/pilots/Pilot_Poke_ArmoredMewtwo.png", path .."img/portraits/pilots/Pilot_Poke_ArmoredMewtwo.png")
 
 CreatePilot{
 	Id = "Pilot_Poke_Abra",
@@ -259,7 +323,7 @@ CreatePilot{
 CreatePilot{
 	Id = "Pilot_Poke_Articuno",
 	Personality = "Vek",
-	Name = "Freezer",
+	Name = "Articuno",
 	Sex = SEX_VEK,
 	Skill = "Survive_Death",
 	Rarity = 0,
@@ -268,7 +332,7 @@ CreatePilot{
 CreatePilot{
 	Id = "Pilot_Poke_Zapdos",
 	Personality = "Vek",
-	Name = "Thunder",
+	Name = "Zapdos",
 	Sex = SEX_VEK,
 	Skill = "Survive_Death",
 	Rarity = 0,
@@ -277,7 +341,7 @@ CreatePilot{
 CreatePilot{
 	Id = "Pilot_Poke_Moltres",
 	Personality = "Vek",
-	Name = "Fire",
+	Name = "Moltres",
 	Sex = SEX_VEK,
 	Skill = "Survive_Death",
 	Rarity = 0,
@@ -305,6 +369,42 @@ CreatePilot{
 	Id = "Pilot_Poke_Darkrai",
 	Personality = "Vek",
 	Name = "Darkrai",
+	Sex = SEX_VEK,
+	Skill = "Survive_Death",
+	Rarity = 0,
+	Blacklist = {"Invulnerable", "Popular"},
+}
+CreatePilot{
+	Id = "Pilot_Poke_Celebi",
+	Personality = "Vek",
+	Name = "Celebi",
+	Sex = SEX_VEK,
+	Skill = "Survive_Death",
+	Rarity = 0,
+	Blacklist = {"Invulnerable", "Popular"},
+}
+CreatePilot{
+	Id = "Pilot_Poke_Shaymin",
+	Personality = "Vek",
+	Name = "Shaymin",
+	Sex = SEX_VEK,
+	Skill = "Survive_Death",
+	Rarity = 0,
+	Blacklist = {"Invulnerable", "Popular"},
+}
+CreatePilot{
+	Id = "Pilot_Poke_Xerneas",
+	Personality = "Vek",
+	Name = "Xerneas",
+	Sex = SEX_VEK,
+	Skill = "Survive_Death",
+	Rarity = 0,
+	Blacklist = {"Invulnerable", "Popular"},
+}
+CreatePilot{
+	Id = "Pilot_Poke_ArmoredMewtwo",
+	Personality = "Vek",
+	Name = "Mewtwo",
 	Sex = SEX_VEK,
 	Skill = "Survive_Death",
 	Rarity = 0,
@@ -368,7 +468,7 @@ Poke_Mew = Pawn:new{
 	ImpactMaterial = IMPACT_FLESH,
 }
 Poke_Articuno = Pawn:new{
-	Name = "Freezer",
+	Name = "Articuno",
 	Class = "TechnoVek",
 	Health = 2,
 	MoveSpeed = 4,
@@ -384,7 +484,7 @@ Poke_Articuno = Pawn:new{
 	KeepAdding = { "", "Poke_Blizzard" },
 }
 Poke_Zapdos = Pawn:new{
-	Name = "Thunder",
+	Name = "Zapdos",
 	Class = "TechnoVek",
 	Health = 2,
 	MoveSpeed = 4,
@@ -400,21 +500,21 @@ Poke_Zapdos = Pawn:new{
 	KeepAdding = { "", "Poke_Thunder" },
 }
 Poke_Moltres = Pawn:new{
-	Name = "Fire",
+	Name = "Moltres",
 	Class = "TechnoVek",
 	Health = 2,
 	MoveSpeed = 4,
 	Massive = true,
 	Corpse = true,
 	Flying = true,
-	IgnoreFire = true,
+	IgnoreMoltres = true,
 	Image = "Poke_Moltres",
 	SkillList = {"Poke_HeatWave"},
 	SoundLocation = "/enemy/moth_1/",
 	DefaultTeam = TEAM_PLAYER,
 	ImpactMaterial = IMPACT_FLESH,
 	-- HasEvolutions = { false, false },
-	KeepAdding = { "", "Poke_FireBlast" },
+	KeepAdding = { "", "Poke_MoltresBlast" },
 }
 Poke_Mewtwo = Pawn:new{
 	Name = "Mewtwo",
@@ -467,8 +567,75 @@ Poke_Deoxys = Pawn:new{
 	EvoForget = { "", "Poke_CosmicPower" },
 	EvoLearn = { { "Poke_CosmicPower" }, { "Poke_PsychoBoost" } },
 }
-
-
+Poke_Celebi = Pawn:new{
+	Name = "Celebi",
+	Class = "TechnoVek",
+	Health = 2,
+	MoveSpeed = 4,
+	Massive = true,
+	Corpse = true,
+	Flying = true,
+	Image = "Poke_Celebi",
+	SkillList = {"Poke_NaturePower", "Poke_TimeTravel"},
+	SoundLocation = "/enemy/moth_1/",
+	DefaultTeam = TEAM_PLAYER,
+	ImpactMaterial = IMPACT_FLESH,
+	GrassMovement = true,
+}
+Poke_Shaymin = Pawn:new{
+	Name = "Shaymin",
+	Class = "TechnoVek",
+	Health = 2,
+	MoveSpeed = 4,
+	Massive = true,
+	Corpse = true,
+	IgnoreAcid = true,
+	Image = "Poke_Shaymin",
+	SkillList = {"Poke_Bloom" },
+	SoundLocation = "/enemy/Moltresfly_1/",
+	DefaultTeam = TEAM_PLAYER,
+	ImpactMaterial = IMPACT_FLESH,
+	HasEvolutions = { false, true },
+	EvoGraphics = { "Poke_Shaymin", "Poke_ShayminAir" },
+	EvoForget = { "", "" },
+	EvoLearn = { { "" }, { "Poke_SeedFlare" } },
+	GrassMovement = true,
+	BecomeFlyingAtLevel = 2,
+}
+Poke_Xerneas = Pawn:new{
+	Name = "Xerneas",
+	Class = "TechnoVek",
+	Health = 2,
+	MoveSpeed = 4,
+	Massive = true,
+	Corpse = true,
+	Image = "Poke_Xerneas",
+	SkillList = {"Poke_PetalBlizzard" },
+	SoundLocation = "/enemy/moth_1/",
+	DefaultTeam = TEAM_PLAYER,
+	ImpactMaterial = IMPACT_FLESH,
+	HasEvolutions = { true, false },
+	EvoForget = { "", "" },
+	EvoLearn = { { "Poke_Moonblast" }, { "" } },
+	KeepAdding = { "", "Poke_EternalLife" },
+	GrassMovement = true,
+}
+Poke_ArmoredMewtwo = Pawn:new{
+	Name = "Mewtwo",
+	Class = "TechnoVek",
+	Health = 2,
+	MoveSpeed = 2,
+	Massive = true,
+	Corpse = true,
+	Armor = true,
+	Teleporter = true,
+	Image = "Poke_ArmoredMewtwo",
+	SkillList = {"Poke_Reflect", "Poke_Teleport" },
+	SoundLocation = "/mech/prime/punch_mech/",
+	DefaultTeam = TEAM_PLAYER,
+	ImpactMaterial = IMPACT_METAL,
+}
+-- AddPawnName("Poke_ArmoredMewtwo")
 
 
 
@@ -495,10 +662,15 @@ local oldMove = Move.GetSkillEffect
 function Move:GetSkillEffect(p1, p2, ...)
 	local ret = SkillEffect()
 	local mover = Board:GetPawn(p1)
+	local willBoost
 	if mover and _G[mover:GetType()].GhostMovement then
 		ret:AddScript(string.format("Board:GetPawn(%s):SetSpace(%s)", p1:GetString(), p2:GetString()))
 		return ret
+	elseif mover and _G[mover:GetType()].GrassMovement then
+		if Board:GetItem(p2) == "Poke_Gracidea" then willBoost = true end
+		ret:AddMove(Board:GetPath(p1, p2, mover:GetPathProf()), FULL_DELAY)
+		if willBoost then ret:AddScript(string.format("modApi:runLater(function() Board:GetPawn(%s):SetBoosted(true) end)", mover:GetId())) end
+		return ret
 	end
-
 	return oldMove(self, p1, p2, ...)
 end

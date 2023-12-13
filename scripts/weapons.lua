@@ -29,6 +29,15 @@ local files = {
 	"FormChange.png",
 	"CosmicPower.png",
 	"PsychoBoost.png",
+	"TimeTravel.png",
+	"NaturePower.png",
+	"Bloom.png",
+	"SeedFlare.png",
+	"PetalBlizzard.png",
+	"Moonblast.png",
+	"EternalLife.png",
+	"Reflect.png",
+	"Teleport.png",
 }
 for _, file in ipairs(files) do
     modApi:appendAsset("img/weapons/"..file, resourcePath.."img/weapons/"..file)
@@ -43,6 +52,9 @@ modApi:appendAsset("img/effects/twister.png", resourcePath.."img/effects/twister
 modApi:appendAsset("img/effects/chill.png", resourcePath.."img/effects/chill.png")
 modApi:appendAsset("img/effects/darkpulse.png", resourcePath.."img/effects/darkpulse.png")
 modApi:appendAsset("img/effects/sleepanim.png", resourcePath.."img/effects/sleepanim.png")
+modApi:appendAsset("img/effects/moonblastanim.png", resourcePath.."img/effects/moonblastanim.png")
+modApi:appendAsset("img/effects/petalblizzardanim.png", resourcePath.."img/effects/petalblizzardanim.png")
+modApi:appendAsset("img/effects/clockanim.png", resourcePath.."img/effects/clockanim.png")
 
 modApi:appendAsset("img/effects/alienwhip0_D.png", resourcePath.."img/effects/alienwhip0_D.png")
 modApi:appendAsset("img/effects/alienwhip0_L.png", resourcePath.."img/effects/alienwhip0_L.png")
@@ -68,6 +80,13 @@ modApi:appendAsset("img/effects/heatwave_R.png", resourcePath.."img/effects/heat
 modApi:appendAsset("img/effects/heatwave_U.png", resourcePath.."img/effects/heatwave_U.png")
 modApi:appendAsset("img/effects/shadowball_R.png", resourcePath.."img/effects/shadowball_R.png")
 modApi:appendAsset("img/effects/shadowball_U.png", resourcePath.."img/effects/shadowball_U.png")
+modApi:appendAsset("img/effects/naturepower_R.png", resourcePath.."img/effects/naturepower_R.png")
+modApi:appendAsset("img/effects/naturepower_U.png", resourcePath.."img/effects/naturepower_U.png")
+modApi:appendAsset("img/effects/petal_R.png", resourcePath.."img/effects/petal_R.png")
+modApi:appendAsset("img/effects/petal_U.png", resourcePath.."img/effects/petal_U.png")
+modApi:appendAsset("img/effects/shotup_seedflare.png", resourcePath.."img/effects/shotup_seedflare.png")
+modApi:appendAsset("img/effects/item_seedflare.png", resourcePath.."img/effects/item_seedflare.png")
+modApi:appendAsset("img/effects/item_gracidea.png", resourcePath.."img/effects/item_gracidea.png")
 
 local effects = {
 	-- "laser_hyperbeam_hit.png",
@@ -124,6 +143,21 @@ ANIMS.darkpulseAnim = Animation:new{
 	PosX = -32,
 	PosY = -20
 }
+ANIMS.moonblastAnim = Animation:new{
+	Image = "effects/moonblastanim.png",
+	NumFrames = 3,
+	Frames = {2, 1, 0, 0, 0, 0, 1, 2},
+	Time = 0.1,
+	PosX = -27,
+	PosY = -15
+}
+ANIMS.petalblizzardAnim = Animation:new{
+	Image = "effects/petalblizzardanim.png",
+	NumFrames = 5,
+	Time = 0.1,
+	PosX = -42,
+	PosY = -30
+}
 
 ANIMS.sleepAnim = Animation:new{
 	Image = "effects/sleepanim.png",
@@ -131,6 +165,23 @@ ANIMS.sleepAnim = Animation:new{
 	Time = 0.3,
 	PosX = -30,
 	PosY = -20
+}
+ANIMS.clockAnim = Animation:new{
+	Image = "effects/clockanim.png",
+	NumFrames = 12,
+	Frames = {0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,1,3,5,7,9,11,2,5,8,11,3,7,11,5,11},
+	Time = 0.06,
+	PosX = -32,
+	PosY = -32
+}
+ANIMS.clockAnimRev = Animation:new{
+	Image = "effects/clockanim.png",
+	NumFrames = 12,
+	-- Frames = {0,11,10,9,8,7,6,5,4,3,2,1,0,11,10,9,8,7,6,5,4,3,2,1,11,9,7,5,3,1,10,7,4,1,9,5,1,7,1},
+	Frames = {0,1,2,3,4,5,6,7,8,9,10,11,0,0,1,1,2,2,3,3,4,4,4,5,5,5,6,6,6,6,7,7,7,7,7,7,7,7,7,6,6,6,6,5,5,5,4,4,4,3,3,2,2,1,1,0,0,11,10,9,8,7,6,5,4,3,2,1,0},
+	Time = 0.06,
+	PosX = -32,
+	PosY = -32
 }
 
 ANIMS.alienwhip0_0 = Animation:new{Image = "effects/alienwhip0_U.png",NumFrames = 6,Time = 0.07,PosX = -46,PosY = -7}
@@ -232,7 +283,6 @@ function Poke_Slam:GetSkillEffect(p1,p2)
 		target = target + DIR_VECTORS[direction]
 	end
 
-	
 	local damage = SpaceDamage(target, self.Damage, direction)
 	damage.sSound = self.ImpactSound
 	
@@ -825,21 +875,8 @@ function Poke_HyperBeam:GetSkillEffect(p1,p2)
 	ret:AddScript(string.format("Game:TriggerSound(%q)", self.LaunchSound))
 	self:AddLaser(ret, target, direction)
 	ret:AddScript(string.format("Board:GetPawn(%s):SetPowered(false)", p1:GetString()))
-	-- HyperBeamTurn = Game:GetTurnCount()
-	-- HyperBeamUserId = Board:GetPawn(p1):GetId()
-	-- modApi:conditionalHook(function()
-		-- return Game:GetTurnCount() > HyperBeamTurn and Game:GetTeamTurn() == TEAM_PLAYER 
-	-- end, 
-	-- function()
-		-- Board:GetPawn(HyperBeamUserId):SetActive(false)
-		-- modApi:conditionalHook(function()
-			-- return Game:GetTurnCount() > HyperBeamTurn + 1 and Game:GetTeamTurn() == TEAM_PLAYER 
-		-- end, 
-		-- function()
-			-- Board:GetPawn(HyperBeamUserId):SetCustomAnim("Poke_Dragonite")
-		-- end)
-	-- end)
 	ret:AddScript(string.format("Board:GetPawn(%s):SetCustomAnim(%q)", p1:GetString(), "Poke_Dragonite_sleep"))
+	ret:AddScript(string.format("GetCurrentMission().SleepTable[%s] = 1", Board:GetPawn(p1):GetId()))
 	return ret
 end
 
@@ -1730,5 +1767,595 @@ function Poke_PsychoBoost:GetSkillEffect(p1, p2)
 		ret:AddDamage(SpaceDamage(p1, -2))
 	end
 	ret:AddScript(string.format("Board:GetPawn(%s):SetActive(true)", p1:GetString()))
+	return ret
+end
+
+
+
+
+
+
+
+Poke_TimeTravel=Skill:new{
+	Class = "TechnoVek",
+	Icon = "weapons/TimeTravel.png",	
+	Rarity = 3,
+	Name = "Time Travel",
+	Description = "Manipulate the flow of time to bring the end of the current mission closer or farther away.",
+	Push = 1,--TOOLTIP HELPER
+	Damage = 0,
+	SelfDamage = 1,
+	PathSize = 1,	
+	PowerCost = 0,
+	Limited = 1,
+	Upgrades = 1,
+	UpgradeList = { "+1 Use" },
+	UpgradeCost = { 3 },
+	ZoneTargeting = ZONE_DIR,
+	TipImage = {
+		Unit = Point(2,3),
+		CustomPawn = "Poke_Celebi",
+	}
+}
+Poke_TimeTravel_A=Poke_TimeTravel:new{ UpgradeDescription = "Can be used one more time.", Limited = 2 }
+
+function Poke_TimeTravel:GetTargetArea(p1)
+	local ret = PointList()
+	ret:push_back(p1)
+	for dir = DIR_START, DIR_END do
+		ret:push_back(p1+DIR_VECTORS[dir])
+	end
+	return ret
+end
+
+function Poke_TimeTravel:GetSkillEffect(p1, p2)
+	local ret = SkillEffect()
+	if Board:GetSize() == Point(6,6) then
+		ret:AddAnimation(p1, "clockAnim")
+	elseif GetCurrentMission() then
+		if p1==p2 then
+			ret:AddScript("GetCurrentMission().TurnLimit = GetCurrentMission().TurnLimit + 1")
+			ret:AddAnimation(p1, "clockAnimRev")
+		else
+			ret:AddScript("GetCurrentMission().TurnLimit = GetCurrentMission().TurnLimit - 1")
+			ret:AddAnimation(p1, "clockAnim")
+		end
+		ret:AddSafeDamage(SpaceDamage(p1, self.SelfDamage))
+	end
+	return ret
+end
+
+Poke_NaturePower=Skill:new{
+	Class = "TechnoVek",
+	Icon = "weapons/NaturePower.png",	
+	Rarity = 3,
+	Name = "Nature Power",
+	Description = "Fire a projectile with limited range that increases in power for each forest in its path.",
+	Push = 1,--TOOLTIP HELPER
+	Damage = 1,
+	PathSize = 3,	
+	PowerCost = 0,
+	Upgrades = 2,
+	UpgradeList = { "+1 Range", "+2 Range" },
+	UpgradeCost = { 1,2 },
+	ZoneTargeting = ZONE_DIR,
+	TipImage = {
+		Unit = Point(2,3),
+		Forest1 = Point(2,3),
+		Forest2 = Point(2,2),
+		Target = Point(2,1),
+		Enemy = Point(2, 1),
+		CustomPawn = "Poke_Celebi",
+	}
+}
+Poke_NaturePower_A=Poke_NaturePower:new{ UpgradeDescription = "Can be fired at targets up to 4 tiles away.", PathSize = 4 }
+Poke_NaturePower_B=Poke_NaturePower:new{ UpgradeDescription = "Can be fired at targets up to 5 tiles away.", PathSize = 5 }
+Poke_NaturePower_AB=Poke_NaturePower:new{ PathSize = 6 }
+
+-- function Poke_NaturePower:GetTargetArea(p1)
+	-- local ret = PointList()
+	-- ret:push_back(p1)
+	-- for dir = DIR_START, DIR_END do
+		-- ret:push_back(p1+DIR_VECTORS[dir])
+	-- end
+	-- return ret
+-- end
+
+function Poke_NaturePower:GetSkillEffect(p1, p2)
+	local ret = SkillEffect()
+	-- local target = GetProjectileEnd(p1, p2)
+	local dir = GetDirection(p2-p1)
+	local curr = p1
+	local amount = 1
+	repeat
+		if Board:GetTerrain(curr) == TERRAIN_FOREST then amount = amount + 1 end
+		if not Board:IsValid(curr + DIR_VECTORS[dir]) then break end
+		curr = curr + DIR_VECTORS[dir]
+	until Board:IsBlocked(curr, PATH_PROJECTILE) or p1:Manhattan(curr) >= self.PathSize
+	ret:AddProjectile(SpaceDamage(curr, amount), "effects/naturepower")
+	return ret
+end
+
+
+
+Poke_Bloom=Skill:new{
+	Class = "TechnoVek",
+	Icon = "weapons/Bloom.png",	
+	Rarity = 3,
+	Name = "Bloom",
+	Description = "Creates forests in an area, pushing pawns on the edge. Forests already present bloom with Gracidea, which empower Grass-type allied Pokemon.",
+	Push = 1,--TOOLTIP HELPER
+	Damage = 0,
+	Healing = 0,
+	PathSize = 8,	
+	PowerCost = 0,
+	Upgrades = 2,
+	UpgradeList = { "Forest's Mercy", "Forest's Wrath" },
+	UpgradeCost = { 1, 2 },
+	ZoneTargeting = ZONE_DIR,
+	TipImage = {
+		Unit = Point(2,4),
+		Forest1 = Point(2,3),
+		Target = Point(2, 2),
+		Enemy1 = Point(1, 2),
+		Enemy2 = Point(2, 2),
+		Enemy3 = Point(3, 2),
+		Forest2 = Point(2, 1),
+		CustomPawn = "Poke_Shaymin",
+	}
+}
+Poke_Bloom_A=Poke_Bloom:new{ UpgradeDescription = "Heals allies on forests.", Healing = -1 }
+Poke_Bloom_B=Poke_Bloom:new{ UpgradeDescription = "Damages enemies on forests.", Damage = 2 }
+
+function Poke_Bloom:GetTargetArea(p1)
+	local ret = PointList()
+	ret:push_back(p1)
+	for dir = DIR_START, DIR_END do
+		for j = 1, 8 do
+			ret:push_back(p1+DIR_VECTORS[dir] * j)
+		end
+	end
+	return ret
+end
+
+function Poke_Bloom:GetSkillEffect(p1, p2)
+	local ret = SkillEffect()
+	local damage = SpaceDamage(p2)
+	if Board:GetTerrain(p2) == TERRAIN_FOREST then 
+		if Board:GetPawn(p2) and Board:GetPawn(p2):GetTeam() == TEAM_ENEMY and self.Damage > 0 then
+			ret:AddSafeDamage(SpaceDamage(p2, self.Damage))
+		elseif Board:GetPawn(p2) and Board:GetPawn(p2):GetTeam() == TEAM_PLAYER and self.Healing < 0 then
+			ret:AddDamage(SpaceDamage(p2, self.Healing))
+		elseif not Board:GetPawn(p2) and Board:GetItem(p2) == "" then
+			damage.sItem = "Poke_Gracidea" 
+		end
+	elseif Board:GetTerrain(p2) == TERRAIN_HOLE or Board:GetTerrain(p2) == TERRAIN_WATER or Board:GetTerrain(p2) == TERRAIN_MOUNTAIN or Board:GetTerrain(p2) == TERRAIN_BUILDING then
+	else
+		damage.iTerrain = TERRAIN_FOREST
+	end
+	ret:AddDamage(damage)
+	for i = DIR_START, DIR_END do
+		local curr = p2 + DIR_VECTORS[i]
+		damage = SpaceDamage(curr, 0, i)
+		if Board:GetTerrain(curr) == TERRAIN_FOREST then 
+			damage.sItem = "Poke_Gracidea" 
+		elseif Board:GetTerrain(curr) == TERRAIN_HOLE or Board:GetTerrain(curr) == TERRAIN_WATER or Board:GetTerrain(curr) == TERRAIN_MOUNTAIN or Board:GetTerrain(curr) == TERRAIN_BUILDING then
+		else
+			damage.iTerrain = TERRAIN_FOREST
+		end
+		ret:AddDamage(damage)
+	end
+	return ret
+end
+
+TILE_TOOLTIPS = {
+	Poke_SeedFlare_Text = {"Seed Flare", "Deals 3 Damage to units that move onto it."},	
+	Poke_Gracidea_Text = {"Gracidea", "Boosts Grass-type Pokemon that move onto it."}	
+}
+
+local seedflare_damage = SpaceDamage(3)
+seedflare_damage.iTerrain = TERRAIN_FOREST
+local gracidea_damage = SpaceDamage(0)
+seedflare_damage.sSound = "Science_KO_Crack_OnKill"
+
+Poke_SeedFlareItem = { Image = "effects/item_seedflare.png", Damage = seedflare_damage, Tooltip = "Poke_SeedFlare_Text", Icon = "effects/item_seedflare.png", UsedImage = ""}
+Location["effects/item_seedflare.png"] = Point(-10,10)
+Poke_Gracidea = { Image = "effects/item_gracidea.png", Damage = gracidea_damage, Tooltip = "Poke_Gracidea_Text", Icon = "effects/item_gracidea.png", UsedImage = ""}
+Location["effects/item_gracidea.png"] = Point(-10,10)
+
+
+Poke_SeedFlare=Skill:new{
+	Class = "TechnoVek",
+	Icon = "weapons/SeedFlare.png",	
+	Rarity = 3,
+	Name = "Seed Flare",
+	Description = "Fires a powerful explosive seed at a location. If nothing is there, it will remain on that tile until set off.",
+	Push = 1,--TOOLTIP HELPER
+	Damage = 0,
+	PathSize = 8,	
+	PowerCost = 0,
+	Upgrades = 1,
+	UpgradeList = { "Burst of Gratitude" },
+	UpgradeCost = { 2 },
+	ZoneTargeting = ZONE_DIR,
+	TipImage = {
+		Unit = Point(2,4),
+		Target = Point(2,2),
+		Enemy = Point(2, 2),
+		Second_Origin = Point(2, 4),
+		Second_Target = Point(2, 1),
+		CustomPawn = "Poke_Shaymin",
+	}
+}
+Poke_SeedFlare_A=Poke_SeedFlare:new{ UpgradeDescription = "When fired at a Gracidea, will damage all adjacent enemies.", Burst = true }
+
+function Poke_SeedFlare:GetTargetArea(p1)
+	local ret = PointList()
+	ret:push_back(p1)
+	for dir = DIR_START, DIR_END do
+		for j = 2, 8 do
+			ret:push_back(p1+DIR_VECTORS[dir] * j)
+		end
+	end
+	return ret
+end
+
+function Poke_SeedFlare:GetSkillEffect(p1, p2)
+	local ret = SkillEffect()
+	local damage = SpaceDamage(p2)
+	local revDir = GetDirection(p1-p2)
+	local doBurst
+	if not Board:IsBlocked(p2, PATH_PROJECTILE) then 
+		if Board:GetItem(p2) == "Poke_Gracidea" and self.Burst then
+			doBurst = true
+		else
+			damage.sItem = "Poke_SeedFlareItem"
+		end
+	else 
+		damage.iDamage = 3 
+		damage.iTerrain = TERRAIN_FOREST
+		seedflare_damage.sSound = "Science_KO_Crack_OnKill"
+	end
+	ret:AddDamage(SpaceDamage(p1, 0, revDir))		--this is here for opportunities to self-damage to enable Eternal Life
+	ret:AddArtillery(p1, damage, "effects/shotup_seedflare.png", PROJ_DELAY)
+	if doBurst then 
+		for i = DIR_START, DIR_END do
+			local curr = p2 + DIR_VECTORS[i]
+			if Board:GetPawn(curr) and Board:GetPawn(curr):GetTeam() == TEAM_ENEMY then ret:AddDamage(SpaceDamage(curr, 3)) end
+		end
+	end
+	return ret
+end
+
+Poke_PetalBlizzard=Skill:new{
+	Class = "TechnoVek",
+	Icon = "weapons/PetalBlizzard.png",	
+	Rarity = 3,
+	Name = "Petal Blizzard",
+	Description = "Strikes and pushes all pawns in a two tiles radius in the chosen direction.",
+	Push = 1,--TOOLTIP HELPER
+	Damage = 1,
+	Range = 2,
+	PathSize = 1,
+	PowerCost = 0,
+	Upgrades = 2,
+	UpgradeList = { "+1 Range", "+1 Damage" },
+	UpgradeCost = { 2, 2 },
+	ZoneTargeting = ZONE_DIR,
+	TipImage = {
+		Unit = Point(2,3),
+		Target = Point(2,2),
+		Enemy1 = Point(1, 2),
+		Enemy2 = Point(2, 2),
+		Enemy3 = Point(3, 3),
+		CustomPawn = "Poke_Xerneas",
+	}
+}
+Poke_PetalBlizzard_A=Poke_PetalBlizzard:new{ UpgradeDescription = "Affects targets in a three tile radius.", Range = 3 }
+Poke_PetalBlizzard_B=Poke_PetalBlizzard:new{ UpgradeDescription = "Deals 1 more damage.", Damage = 2 }
+Poke_PetalBlizzard_AB=Poke_PetalBlizzard:new{ Range = 3, Damage = 2 }
+
+-- function Poke_PetalBlizzard:GetTargetArea(p1)
+	-- local ret = PointList()
+	-- ret:push_back(p1)
+	-- for dir = DIR_START, DIR_END do
+		-- ret:push_back(p1+DIR_VECTORS[dir])
+	-- end
+	-- return ret
+-- end
+
+function Poke_PetalBlizzard:GetSkillEffect(p1, p2)
+	local ret = SkillEffect()
+	local targets = extract_table(general_DiamondTarget(p1, self.Range))
+	local dir = GetDirection(p2-p1)
+	ret:AddAnimation(p1, "petalblizzardAnim")
+	for i = self.Range, 1, -1 do
+		for k = 1, #targets do
+			if p1:Manhattan(targets[k]) == i then
+			--we have to hit the furthest tiles first, so we just iterate on the entire area self.Range times
+				if math.random(1, self.Range) == 1 then 
+					local visual = SpaceDamage(targets[k] + DIR_VECTORS[dir] * math.random(2, 3))
+					visual.bHide = true
+					ret:AddProjectile(targets[k], visual, "effects/petal", NO_DELAY) 
+				end
+				if Board:GetPawn(targets[k]) and targets[k] ~= p1 then ret:AddSafeDamage(SpaceDamage(targets[k], self.Damage, dir)) end
+			end
+		end
+		ret:AddDelay(-1)
+	end
+	return ret
+end
+
+
+
+Poke_Moonblast=Skill:new{
+	Class = "TechnoVek",
+	Icon = "weapons/Moonblast.png",	
+	Rarity = 3,
+	Name = "Moonblast",
+	Description = "Deal damage in an X-shaped zone.",
+	Push = 1,--TOOLTIP HELPER
+	Damage = 2,
+	PathSize = 8,
+	PowerCost = 0,
+	Upgrades = 2,
+	UpgradeList = { "+1 Damage", "+1 Damage" },
+	UpgradeCost = { 2, 3 },
+	ZoneTargeting = ZONE_DIR,
+	TipImage = {
+		Unit = Point(3,3),
+		Target = Point(1,1),
+		Enemy1 = Point(1, 1),
+		Enemy2 = Point(2, 2),
+		Enemy3 = Point(0, 0),
+		Enemy3 = Point(2, 0),
+		Enemy3 = Point(0, 2),
+		CustomPawn = "Poke_Xerneas",
+	}
+}
+Poke_Moonblast_A=Poke_Moonblast:new{ UpgradeDescription = "Deals 1 more damage.", Damage = 3 }
+Poke_Moonblast_B=Poke_Moonblast:new{ UpgradeDescription = "Deals 1 more damage.", Damage = 3 }
+Poke_Moonblast_AB=Poke_Moonblast:new{ Damage = 4 }
+
+function Poke_Moonblast:GetTargetArea(p1)
+	local ret = PointList()
+	ret:push_back(p1)
+	for dir = DIR_START, DIR_END do
+		for j = 1, 8 do
+			ret:push_back(p1+DIR_VECTORS[dir]*j+DIR_VECTORS[(dir+1)%4]*j)
+		end
+	end
+	return ret
+end
+
+function Poke_Moonblast:GetSkillEffect(p1, p2)
+	local ret = SkillEffect()
+	local damage = SpaceDamage(p2, self.Damage)
+	damage.sAnimation = "moonblastAnim"
+	ret:AddDamage(damage)
+	for dir = DIR_START, DIR_END do 
+		damage.loc = p2+DIR_VECTORS[dir]+DIR_VECTORS[(dir+1)%4]
+		ret:AddDamage(damage)
+	end
+	return ret
+end
+
+
+
+Poke_EternalLife=Skill:new{
+	Class = "TechnoVek",
+	Icon = "weapons/EternalLife.png",	
+	Rarity = 3,
+	Name = "Eternal Life",
+	Description = "Heals all allies to full life by draining enemies. The effort puts the user to sleep for one turn.",
+	Push = 1,--TOOLTIP HELPER
+	Damage = 1,
+	Range = 2,
+	PathSize = 1,
+	PowerCost = 0,
+	-- Upgrades = 2,
+	-- UpgradeList = { "+1 Range", "+1 Damage" },
+	-- UpgradeCost = { 2, 2 },
+	ZoneTargeting = ZONE_DIR,
+	TipImage = {
+		Unit = Point(2,3),
+		Target = Point(2,2),
+		Enemy1 = Point(1, 2),
+		Enemy2 = Point(2, 2),
+		Enemy3 = Point(3, 3),
+		CustomPawn = "Poke_Xerneas",
+	}
+}
+
+function Poke_EternalLife:GetTargetArea(p1)
+	local ret = PointList()
+	ret:push_back(p1)
+	-- for dir = DIR_START, DIR_END do
+		-- ret:push_back(p1+DIR_VECTORS[dir])
+	-- end
+	return ret
+end
+
+function Poke_EternalLife:GetSkillEffect(p1, p2)
+	local ret = SkillEffect()
+	local enemies = Board:GetPawns(TEAM_ENEMY)
+	local allies = Board:GetPawns(TEAM_PLAYER)
+	local enemyList = {}
+	local allyList = {}
+	for _, i in ipairs(extract_table(enemies)) do
+		enemyList[#enemyList + 1] = {id = i, hp = Board:GetPawn(i):GetHealth()}
+	end
+	for _, i in ipairs(extract_table(allies)) do
+		if Board:GetPawn(i):IsDamaged() then allyList[#allyList + 1] = {id = i, hp = Board:GetPawn(i):GetMaxHealth() - Board:GetPawn(i):GetHealth()} end
+	end
+	LOG(#enemyList, #allyList)
+	if #enemyList == 0 or #allyList == 0 then return ret end
+	while #enemyList > 0 and #allyList > 0 do
+		local randAlly = 1 --math.random(#allyList)
+		local randEnemy = 1 --math.random(#enemyList)
+		local randAllyId = allyList[randAlly].id
+		local randEnemyId = enemyList[randEnemy].id
+		ret:AddArtillery(Board:GetPawn(randEnemyId):GetSpace(), SpaceDamage(Board:GetPawn(randAllyId):GetSpace(), -1), "effects/shotup_grid.png", NO_DELAY)
+		ret:AddSafeDamage(SpaceDamage(Board:GetPawn(randEnemyId):GetSpace(), 1))
+		allyList[randAlly].hp = allyList[randAlly].hp - 1
+		if allyList[randAlly].hp == 0 then table.remove(allyList, randAlly) end
+		enemyList[randEnemy].hp = enemyList[randEnemy].hp - 1
+		if Board:GetPawn(randEnemyId):IsAcid() then enemyList[randEnemy].hp = enemyList[randEnemy].hp - 1 end
+		if enemyList[randEnemy].hp == 0 then table.remove(enemyList, randEnemy) end
+		ret:AddDelay(0.1)
+	end
+	ret:AddDelay(1)
+	ret:AddScript(string.format("Board:GetPawn(%s):SetCustomAnim(%q)", p1:GetString(), "Poke_Xerneas_tree_sleep"))
+	ret:AddScript(string.format("Board:GetPawn(%s):SetPowered(false)", p1:GetString()))
+	ret:AddScript(string.format("GetCurrentMission().SleepTable[%s] = 1", Board:GetPawn(p1):GetId()))
+	return ret
+end
+
+
+
+Poke_Reflect=Skill:new{
+	Class = "TechnoVek",
+	Icon = "weapons/Reflect.png",	
+	Rarity = 3,
+	Name = "Reflect",
+	Description = "Reflects all queued attacks currently targeting the user.",
+	Push = 1,--TOOLTIP HELPER
+	Damage = 0,
+	Range = 0,
+	PathSize = 1,
+	PowerCost = 0,
+	Upgrades = 2,
+	UpgradeList = { "+2 Range", "+4 Range" },
+	UpgradeCost = { 1, 2 },
+	ZoneTargeting = ZONE_DIR,
+	TipImage = {
+		Unit = Point(2,3),
+		Target = Point(2,2),
+		Enemy1 = Point(1, 2),
+		Enemy2 = Point(2, 2),
+		Enemy3 = Point(3, 3),
+		CustomPawn = "Poke_ArmoredMewtwo",
+	}
+}
+Poke_Reflect_A=Poke_Reflect:new{ UpgradeDescription = "Can reflect from tiles within a 2 tile radius.", Range = 2 }
+Poke_Reflect_B=Poke_Reflect:new{ UpgradeDescription = "Can reflect from tiles within a 2 tile radius.", Range = 4 }
+Poke_Reflect_AB=Poke_Reflect:new{ Range = 6 }
+
+function Poke_Reflect:GetTargetArea(p1)
+	local ret = PointList()
+	local targets = extract_table(general_DiamondTarget(p1, self.Range))
+	if self.Range == 0 then
+		ret:push_back(p1)
+	-- for dir = DIR_START, DIR_END do
+		-- ret:push_back(p1+DIR_VECTORS[dir])
+	else	
+		for _, tile in targets do
+			ret:push_back(tile)
+		end
+	end
+	return ret
+end
+
+function Poke_Reflect:GetSkillEffect(p1, p2)
+	--for each enemy, look at their queued skill, generate a skill effect targeting the same tile, loop on it, if it targets the Reflect tile, reflect
+	local ret = SkillEffect()
+	for _, id in ipairs(extract_table(Board:GetPawns(TEAM_ENEMY))) do
+		local pawn = Board:GetPawn(id)
+		local queued = pawn:GetQueued()
+		
+		if pawn:IsQueued() then
+			local fx = _G[pawn:GetQueuedWeapon()]:GetSkillEffect(pawn:GetSpace(), queued.piQueuedShot)
+			for _, spaceDamage in ipairs(extract_table(fx.q_effect)) do
+				if spaceDamage.loc == p2 then 
+					local reflectDamage = SpaceDamage(pawn:GetSpace(), spaceDamage.iDamage)
+					if spaceDamage:GetType() == 2 then			--projectile
+						ret:AddProjectile(p2, reflectDamage, spaceDamage:GetProjectileArt(), PROJ_DELAY)
+					elseif spaceDamage:GetType() == 1 then		--artillery
+						ret:AddArtillery(p2, reflectDamage, spaceDamage:GetProjectileArt(), PROJ_DELAY)
+					elseif spaceDamage:GetMoveType() == 3 then	--melee
+						ret:AddDamage(reflectDamage)
+					else
+						ret:AddDamage(reflectDamage)
+					end
+				end
+				ret:AddScript(string.format("Board:GetPawn(%s):ClearQueued()", id))
+			end
+		end
+	end
+	return ret
+end
+
+
+
+Poke_Teleport=Skill:new{
+	Class = "TechnoVek",
+	Icon = "weapons/Teleport.png",	
+	Rarity = 3,
+	Name = "Teleport",
+	Description = "Teleports a target to another location.",
+	Push = 1,--TOOLTIP HELPER
+	Damage = 0,
+	Range = 3,
+	PathSize = 1,
+	PowerCost = 0,
+	TwoClick = true,
+	Upgrades = 2,
+	UpgradeList = { "+2 Range", "Shunt" },
+	UpgradeCost = { 1, 2 },
+	ZoneTargeting = ZONE_DIR,
+	TipImage = {
+		Unit = Point(2,3),
+		Target = Point(2,2),
+		Enemy = Point(2, 2),
+		Second_Target = Point(1,0),
+		Water = Point(1,0),
+		CustomPawn = "Poke_ArmoredMewtwo",
+	}
+}
+Poke_Teleport_A=Poke_Teleport:new{ UpgradeDescription = "Can teleport targets two tiles further.", Range = 5 }
+Poke_Teleport_B=Poke_Teleport:new{ UpgradeDescription = "Can teleport targets into mountains, killing them, or into pawns, dealing damage to both equal to the lowest health of the two.", Shunt = true }
+Poke_Teleport_AB=Poke_Teleport:new{ Range = 5, Shunt = true }
+
+function Poke_Teleport:GetTargetArea(p1)
+	local ret = PointList()
+	ret:push_back(p1)
+	for i = DIR_START, DIR_END do
+		local curr = p1 + DIR_VECTORS[i]
+		if Board:GetPawn(curr) and not Board:GetPawn(curr):IsGuarding() then ret:push_back(curr) end
+	end
+	return ret
+end
+
+function Poke_Teleport:IsTwoClickException(p1,p2)
+	return false
+end
+
+function Poke_Teleport:GetSecondTargetArea(p1, p2)
+	local ret = PointList()
+	local targets = extract_table(general_DiamondTarget(p2, self.Range))
+	for k = 1, #targets do
+		local tile = targets[k]
+		if not Board:IsBlocked(tile, PATH_PROJECTILE) or self.Shunt and (Board:GetTerrain(tile) == TERRAIN_MOUNTAIN or Board:GetTerrain(tile) == TERRAIN_BUILDING or Board:GetPawn(tile)) then ret:push_back(tile) end
+	end
+	return ret
+end
+
+function Poke_Teleport:GetSkillEffect(p1, p2)
+	local ret = SkillEffect()
+	ret:AddDamage(SpaceDamage(p2))
+	return ret
+end
+
+function Poke_Teleport:GetFinalEffect(p1, p2, p3)
+	local ret = SkillEffect()
+	local moverHp = Board:GetPawn(p2):GetHealth()
+	local targetHp = 100
+	if Board:GetPawn(p3) then targetHp = Board:GetPawn(p3):GetHealth() end
+	if (Board:GetTerrain(p3) == TERRAIN_MOUNTAIN and Board:GetHealth(p3) == 2) or (Board:GetTerrain(p3) == TERRAIN_BUILDING and Board:GetHealth(p3) > moverHp) then
+		--we don't want corpses on the same tile as a mountain/building that will be standing 
+		ret:AddScript(string.format("Board:GetPawn(%s):SetCorpse(false)", p2:GetString()))
+	end
+	ret:AddTeleport(p2, p3, FULL_DELAY)
+	if Board:IsBlocked(p3, PATH_PROJECTILE) then ret:AddDamage(SpaceDamage(p3, math.min(moverHp, targetHp))) end
 	return ret
 end

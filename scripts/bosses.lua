@@ -341,7 +341,7 @@ function Env_LightningZapdos:GetAttackEffect(location)
 	return effect
 end
 
-function Env_Lightning:SelectSpaces()
+function Env_LightningZapdos:SelectSpaces()
 	local ret = {}
 	local quarters = self:GetQuarters()
 	for i,v in ipairs(quarters) do
@@ -493,7 +493,7 @@ function Env_VolcanoMoltres:SelectSpaces()
 	local quarters = self:GetQuarters()
 	for i,v in ipairs(quarters) do
 		local choice = Point(1,1)
-		while (choice == Point(1,1) or (Board:GetPawn(GetCurrentMission().BallID) and choice == Board:GetPawn(GetCurrentMission().BallID):GetSpace())) and #v > 1 do
+		while (choice == Point(1,1) or (GetCurrentMission().BallID and Board:GetPawn(GetCurrentMission().BallID) and choice == Board:GetPawn(GetCurrentMission().BallID):GetSpace())) and #v > 1 do
 			choice = random_element(v)
 		end
 		
@@ -512,7 +512,7 @@ function Env_VolcanoMoltres:GetAttackEffect(location, effect)
 	--change piOrigin to random mountain
 	effect:AddSound("/weapons/fireball")
 	local damage = SpaceDamage(location, DAMAGE_DEATH)
-	if Board:GetPawn(location) and Board:GetPawn(location):GetId() == GetCurrentMission().BossID then
+	if Board:GetPawn(location) and GetCurrentMission().BossID and Board:GetPawn(location):GetId() == GetCurrentMission().BossID then
 		effect:AddArtillery(SpaceDamage(location), "effects/shotup_fireball.png", PROJ_DELAY)
 		effect:AddScript(string.format("Board:GetPawn(%s):AddMoveBonus(2)", location:GetString()))
 	else

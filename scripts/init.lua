@@ -41,6 +41,28 @@ function mod:init()
 	ml.addMission(ml._default , "Mission_Poke_Darkrai", true)
 	local ml = easyEdit.missionList:get("detritus")
 	ml.addMission(ml._default , "Mission_Poke_Deoxys", true)
+	-- local ml = easyEdit.missionList:get("Meridia")
+	-- ml:addMission("Mission_Poke_Celebi", true)
+	-- ml:addMission("Mission_Poke_Shaymin", true)
+	-- ml:addMission("Mission_Poke_Xerneas", true)
+	modApi:addModsInitializedHook(function()
+		local oldGetStartingSquad = getStartingSquad
+		function getStartingSquad(choice, ...)
+			local result = oldGetStartingSquad(choice, ...)
+
+			if choice == 0 then
+				local copy = {}
+				for i, v in pairs(result) do
+					copy[#copy+1] = v
+				end
+				table.insert(copy, "Poke_ArmoredMewtwo")
+
+				return copy
+			end
+
+			return result
+		end
+	end)
 end
 
 local function isMission()
@@ -70,14 +92,24 @@ function mod:load( options, version)
 		"Legendary Birds", "The three legendary birds of Kanto.", 
 		self.resourcePath .. "img/birds_icon.png")
 	end
-	-- if modApi.achievements:isComplete(mod.id,"Poke_MewtwoCapture") and 
-	   -- modApi.achievements:isComplete(mod.id,"Poke_DeoxysCapture") and 
-	   -- modApi.achievements:isComplete(mod.id,"Poke_DarkraiCapture") then 
+	if modApi.achievements:isComplete(mod.id,"Poke_MewtwoCapture") and 
+	   modApi.achievements:isComplete(mod.id,"Poke_DeoxysCapture") and 
+	   modApi.achievements:isComplete(mod.id,"Poke_DarkraiCapture") then 
 
 		modApi:addSquad(
 		{"Dark Minds","Poke_Mewtwo", "Poke_Deoxys", "Poke_Darkrai", id = "Poke_EvilSquad"}, 
 		"Dark Minds", "These ruthless Pokemon will crush the Vek.", 
 		self.resourcePath .. "img/evil_icon.png")
+	end
+	-- table.insert(modApi.mod_squads[#modApi.mod_squads], "Poke_ArmoredMewtwo")
+	-- if modApi.achievements:isComplete(mod.id,"Poke_MewtwoCapture") and 
+	   -- modApi.achievements:isComplete(mod.id,"Poke_DeoxysCapture") and 
+	   -- modApi.achievements:isComplete(mod.id,"Poke_DarkraiCapture") then 
+
+		modApi:addSquad(
+		{"Nature's Guardians","Poke_Celebi", "Poke_Shaymin", "Poke_Xerneas", id = "Poke_NatureSquad"}, 
+		"Nature's Guardians", "Protectors of nature, these Pokemon will heal the planet.", 
+		self.resourcePath .. "img/nature_icon.png")
 	-- end
 		
 	modApi:addMissionEndHook(function()		--revive dead pawns, do evolution stuff
@@ -110,22 +142,21 @@ function mod:load( options, version)
 					
 					Game:TriggerSound("/ui/map/flyin_rewards")
 					Board:Ping(pawn:GetSpace(), GL_Color(255, 255, 255))
-					if _G[pawn:GetType()].EvoGraphics then spawn:SetCustomAnim(_G[pawn:GetType()].EvoGraphics[pilotLevel])	end --update graphics
+					if _G[pawn:GetType()].EvoGraphics and _G[pawn:GetType()].EvoGraphics[pilotLevel] ~= "" then --update graphics
+						pawn:SetCustomAnim(_G[pawn:GetType()].EvoGraphics[pilotLevel])
+					end 
 				end
 				GAME.Poke_Evolutions[id+1] = pilotLevel			--set this separately from evolution so that evoless Pokemon can get stuff with levels anyway
 				--remember it evolved so we don't do it again
             end
         end
-		if GetCurrentMission() == Mission_Final_Cave and GetCurrentMission().ballID and Board:GetPawn(GetCurrentMission().ballID) then
-			if not achievements.Poke_MewtwoCapture:isComplete() then achievements.Poke_MewtwoCapture:addProgress{ complete = true } end
-		end
     end)
 	modApi:addMissionStartHook(function()	--need to reassign graphics at mission start since the game forgets otherwise
 		if GAME.Poke_Evolutions == nil then GAME.Poke_Evolutions = {0, 0, 0} end
         for id = 0, 2 do
             local pawn = Game:GetPawn(id)
 			local evo = GAME.Poke_Evolutions[id + 1]
-			if _G[pawn:GetType()].HasEvolutions and evo > 0 then pawn:SetCustomAnim(_G[pawn:GetType()].EvoGraphics[evo]) end
+			if _G[pawn:GetType()].HasEvolutions and evo > 0 and _G[pawn:GetType()].EvoGraphics then pawn:SetCustomAnim(_G[pawn:GetType()].EvoGraphics[evo]) end
 			if _G[pawn:GetType()].BecomeFlyingAtLevel and _G[pawn:GetType()].BecomeFlyingAtLevel <= evo then pawn:SetFlying(true) end
 			if _G[pawn:GetType()].HealthAtLevel and evo > 0 then pawn:SetMaxHealth(pawn:GetHealth() + _G[pawn:GetType()].HealthAtLevel[evo]) pawn:SetHealth(pawn:GetHealth() + _G[pawn:GetType()].HealthAtLevel[evo]) end
 			if _G[pawn:GetType()].KeepAdding and _G[pawn:GetType()].KeepAdding[evo] and _G[pawn:GetType()].KeepAdding[evo] ~= "" and pawn:GetWeaponCount() < 3 then 
@@ -143,7 +174,7 @@ function mod:load( options, version)
 			for id = 0, 2 do
 				local pawn = Game:GetPawn(id)
 				local evo = GAME.Poke_Evolutions[id + 1]
-				if _G[pawn:GetType()].HasEvolutions and evo > 0 then pawn:SetCustomAnim(_G[pawn:GetType()].EvoGraphics[evo]) end
+				if _G[pawn:GetType()].HasEvolutions and evo > 0 and _G[pawn:GetType()].EvoGraphics then pawn:SetCustomAnim(_G[pawn:GetType()].EvoGraphics[evo]) end
 				if _G[pawn:GetType()].BecomeFlyingAtLevel and _G[pawn:GetType()].BecomeFlyingAtLevel <= evo then pawn:SetFlying(true) end
 				if _G[pawn:GetType()].HealthAtLevel and evo > 0 then pawn:SetMaxHealth(pawn:GetHealth() + _G[pawn:GetType()].HealthAtLevel[evo]) pawn:SetHealth(pawn:GetHealth() + _G[pawn:GetType()].HealthAtLevel[evo]) end
 				if _G[pawn:GetType()].KeepAdding and _G[pawn:GetType()].KeepAdding[evo] and _G[pawn:GetType()].KeepAdding[evo] ~= "" and pawn:GetWeaponCount() < 3 then 
@@ -162,7 +193,7 @@ function mod:load( options, version)
 			for id = 0, 2 do
 				local pawn = Game:GetPawn(id)
 				local evo = GAME.Poke_Evolutions[id + 1]
-				if _G[pawn:GetType()].HasEvolutions and evo > 0 then pawn:SetCustomAnim(_G[pawn:GetType()].EvoGraphics[evo]) end
+				if _G[pawn:GetType()].HasEvolutions and evo > 0 and _G[pawn:GetType()].EvoGraphics then pawn:SetCustomAnim(_G[pawn:GetType()].EvoGraphics[evo]) end
 				if _G[pawn:GetType()].BecomeFlyingAtLevel and _G[pawn:GetType()].BecomeFlyingAtLevel <= evo then pawn:SetFlying(true) end
 				if _G[pawn:GetType()].HealthAtLevel and evo > 0 then pawn:SetMaxHealth(pawn:GetHealth() + _G[pawn:GetType()].HealthAtLevel[evo]) pawn:SetHealth(pawn:GetHealth() + _G[pawn:GetType()].HealthAtLevel[evo]) end
 				if _G[pawn:GetType()].KeepAdding and _G[pawn:GetType()].KeepAdding[evo] and _G[pawn:GetType()].KeepAdding[evo] ~= "" and pawn:GetWeaponCount() < 3 then 

@@ -9,6 +9,8 @@ local missions = {
 	"mission_darkrai",
 	"mission_deoxys",
 }
+if lmn_Beanstalker1 ~= nil then missions[#missions+1] = "mission_shaymin" end
+--just checking ItW is enabled: if not, that pawn won't exist
 
 local function loadMissionDialog(missionId, file)
 	local name = file:sub(1, -5)
